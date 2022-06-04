@@ -1,6 +1,7 @@
 import cors from "cors";
 import express, {json} from "express";
 import {handleError, ValidationError} from "./utils/errors";
+import {addRouter} from "./routes/create-warrior";
 
 const app = express();
 
@@ -9,6 +10,7 @@ app.use(cors({
 }));
 app.use(json());
 
+app.use('/create-warrior', addRouter);
 
 app.use(handleError);
 
