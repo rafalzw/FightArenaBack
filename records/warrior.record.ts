@@ -2,6 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { ValidationError } from '../utils/errors';
 import {WarriorEntity} from "../types";
 import {pool} from "../utils/db";
+import {FieldPacket} from "mysql2";
 
 export class WarriorRecord implements WarriorEntity {
     id?: string;
@@ -59,5 +60,12 @@ export class WarriorRecord implements WarriorEntity {
             id: this.id,
             wins: this.wins,
         });
+    }
+
+    static async getOne(id: string): Promise<WarriorRecord | null> {
+        const [results] = await pool.execute('SELECT * FROM `warriors` WHERE `id` = :id', {
+            id,
+        }) as [WarriorRecord[], FieldPacket[]];
+        return results.length === 0 ? null : new WarriorRecord(results[0]);
     }
 }
