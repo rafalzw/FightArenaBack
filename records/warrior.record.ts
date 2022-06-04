@@ -1,5 +1,7 @@
+import { v4 as uuid } from 'uuid';
 import { ValidationError } from '../utils/errors';
 import {WarriorEntity} from "../types";
+import {pool} from "../utils/db";
 
 export class WarriorRecord implements WarriorEntity {
     id?: string;
@@ -35,4 +37,20 @@ export class WarriorRecord implements WarriorEntity {
         }
     }
 
+    async insert(): Promise<string> {
+        if (!this.id) {
+            this.id = uuid();
+        }
+
+        await pool.execute('INSERT INTO `warriors`(`id`, `name`, `power`, `defence`, `endurance`, `agility`) VALUES(:id, :name, :power, :defence, :endurance, :agility)', {
+            id: this.id,
+            name: this.name,
+            power: this.power,
+            defence: this.defence,
+            endurance: this.endurance,
+            agility: this.agility,
+        });
+
+        return this.id;
+    }
 }
