@@ -68,4 +68,9 @@ export class WarriorRecord implements WarriorEntity {
         }) as [WarriorRecord[], FieldPacket[]];
         return results.length === 0 ? null : new WarriorRecord(results[0]);
     }
+
+    static async listAll(): Promise<WarriorRecord[]> {
+        const [results] = await pool.execute('SELECT * FROM `warriors` ORDER BY `name` ASC') as [WarriorRecord[], FieldPacket[]];
+        return results.map((obj) => new WarriorRecord(obj));
+    }
 }
