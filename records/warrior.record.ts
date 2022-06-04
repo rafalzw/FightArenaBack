@@ -53,4 +53,11 @@ export class WarriorRecord implements WarriorEntity {
 
         return this.id;
     }
+
+    async update(): Promise<void> {
+        await pool.execute('UPDATE `warriors` SET `wins` = :wins WHERE `id` = :id', {
+            id: this.id,
+            wins: this.wins,
+        });
+    }
 }
