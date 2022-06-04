@@ -73,4 +73,9 @@ export class WarriorRecord implements WarriorEntity {
         const [results] = await pool.execute('SELECT * FROM `warriors` ORDER BY `name` ASC') as [WarriorRecord[], FieldPacket[]];
         return results.map((obj) => new WarriorRecord(obj));
     }
+
+    static async listTop(): Promise<WarriorRecord[]> {
+        const [results] = await pool.execute('SELECT `id`, `name`, `wins` FROM `warriors` ORDER BY `wins` DESC LIMIT 10') as [WarriorRecord[], FieldPacket[]];
+        return results;
+    }
 }
