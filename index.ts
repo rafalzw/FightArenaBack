@@ -1,5 +1,5 @@
 import cors from "cors";
-import express, {json} from "express";
+import express, {json, Router} from "express";
 import {handleError, ValidationError} from "./utils/errors";
 import {addRouter} from "./routes/create-warrior";
 import { fightRouter } from "./routes/fight-arena";
@@ -13,9 +13,13 @@ app.use(cors({
 }));
 app.use(json());
 
-app.use('/create-warrior', addRouter);
-app.use('/fight-arena', fightRouter);
-app.use('/hall-of-fame', hallOfFameRouter);
+const router = Router();
+
+router.use('/create-warrior', addRouter);
+router.use('/fight-arena', fightRouter);
+router.use('/hall-of-fame', hallOfFameRouter);
+
+app.use('/api', router);
 
 app.use(handleError);
 
