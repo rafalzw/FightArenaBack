@@ -4,11 +4,12 @@ import {handleError, ValidationError} from "./utils/errors";
 import {addRouter} from "./routes/create-warrior";
 import { fightRouter } from "./routes/fight-arena";
 import {hallOfFameRouter} from "./routes/hall-of-fame";
+import {config} from "./config/config";
 
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: config.corsOrigin,
 }));
 app.use(json());
 
